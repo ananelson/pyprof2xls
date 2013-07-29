@@ -3,18 +3,25 @@ import sys
 import os
 from pyprof2xls.generate import generate
 
+PYPROF2XLS_VERSION = '0.0.2'
+
 prog='pyprof2xls'
 mod=sys.modules[__name__]
 default_cmd='generate'
 
 def run():
+    if ".prof" in sys.argv[1] or (sys.argv[1] == 'generate' and '.prof' in sys.argv[2]):
+        print "\nYou need to specify prof files using the --prof option. Here is the help:\n"
+        help_command(on=default_cmd)
+        sys.exit(1)
+
     try:
         args.parse_and_run_command(sys.argv[1:], mod, default_command=default_cmd)
     except SystemExit:
-        if len(sys.argv) == 1:
-            help_command(on=default_cmd)
-        else:
-            help_command(on=sys.argv[1])
+        print "For help run: pyprof2xls help"
+
+def version_command():
+    print "pyprof2xls version %s" % PYPROF2XLS_VERSION
 
 def help_command(on=False):
     """

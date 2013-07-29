@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from pyprof2xls.commands import PYPROF2XLS_VERSION
 
 setup(
         author='Ana Nelson',
@@ -21,5 +22,5 @@ setup(
         name='pyprof2xls',
         packages=find_packages(),
         url='http://github.com/ananelson/pyprof2xls',
-        version='0.0.1'
+        version=PYPROF2XLS_VERSION
         )
