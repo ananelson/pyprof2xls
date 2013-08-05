@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from pyprof2xls.commands import PYPROF2XLS_VERSION
+from pyprof2xls.version import PYPROF2XLS_VERSION
 
 setup(
         author='Ana Nelson',
@@ -17,7 +17,7 @@ setup(
         include_package_data = True,
         install_requires = [
             'xlwt',
-            'python-modargs',
+            'python-modargs'
             ],
         name='pyprof2xls',
         packages=find_packages(),
