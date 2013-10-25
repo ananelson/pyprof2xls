@@ -81,18 +81,6 @@ def generate(prof_file, output_file):
             print "ERROR in line %06d: %s" % (i, line)
     
     
-    def get_data_for_stat_type_and_sorting(stat_type, sort_key):
-        data = StringIO.StringIO()
-        s = pstats.Stats("dexy.prof", stream = data)
-    
-        if stat_type == 'callees':
-            s.sort_stats(sort_key).print_callees()
-        elif stat_type == 'callers':
-            s.sort_stats(sort_key).print_callers()
-        else:
-            raise Exception("Stat type '%s'" % stat_type)
-    
-        return data.getvalue().splitlines()
     
     for sort_key in ['cumulative', 'time']:
         for stat_type in ['callees', 'callers']:
@@ -100,7 +88,7 @@ def generate(prof_file, output_file):
     
             ws = wb.add_sheet("%s by %s" % (stat_type, sort_key))
             ws.col(0).width = 20000
-            pstats_output = get_data_for_stat_type_and_sorting(stat_type, sort_key)
+            pstats_output = get_data_for_stat_type_and_sorting(prof_file, stat_type, sort_key)
     
             header_row = None
             for i in xrange(0, 10):
@@ -144,3 +132,16 @@ def generate(prof_file, output_file):
                     ws.write(i, 1, ' ') # stop first cell from spilling over visually
     
     wb.save(output_file)
+
+def get_data_for_stat_type_and_sorting(prof_file, stat_type, sort_key):
+    data = StringIO.StringIO()
+    s = pstats.Stats(prof_file, stream = data)
+
+    if stat_type == 'callees':
+        s.sort_stats(sort_key).print_callees()
+    elif stat_type == 'callers':
+        s.sort_stats(sort_key).print_callers()
+    else:
+        raise Exception("Stat type '%s'" % stat_type)
+
+    return data.getvalue().splitlines()
